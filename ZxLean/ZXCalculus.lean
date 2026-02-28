@@ -16,8 +16,9 @@ def ZXDiagram.spiderFusion (d : ZXDiagram) (a b : Nat) : Option ZXDiagram := do
   -- rewire: edges from b's neighbors (except a) now point to a
   let bNeighbors := d.neighbors b |>.filter (· != a)
   let newEdges := bNeighbors.map fun n => Edge.mk a n
-  -- remove all edges touching b, update node at a
+  -- remove all edges touching b, update node at a, then remove node b
   let d := d.removeEdgesOf b
   let d := { d with nodes := d.nodes.set! a merged }
   let d := { d with edges := d.edges ++ newEdges }
+  let d := d.removeNode b
   return d

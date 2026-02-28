@@ -60,3 +60,9 @@ def ZXDiagram.neighbors (d : ZXDiagram) (n : Nat) : Array Nat :=
 /-- Remove all edges touching a given node index -/
 def ZXDiagram.removeEdgesOf (d : ZXDiagram) (n : Nat) : ZXDiagram :=
   { d with edges := d.edges.filter fun e => e.src != n && e.tgt != n }
+
+/-- Remove a node and reindex all edges accordingly -/
+def ZXDiagram.removeNode (d : ZXDiagram) (n : Nat) : ZXDiagram :=
+  let reindex (i : Nat) : Nat := if i > n then i - 1 else i
+  { nodes := d.nodes.extract 0 n ++ d.nodes.extract (n + 1) d.nodes.size
+    edges := d.edges.map fun e => ⟨reindex e.src, reindex e.tgt⟩ }

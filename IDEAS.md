@@ -1,0 +1,5 @@
+- Better equality checking
+- Make node removal neater
+    - currently we have to reindex all the edges when we remove a node
+    - maybe give edges ID's that we don't mutate?
+    - affects equality...
