@@ -5,6 +5,11 @@ defaultTargets = ["zxlean"]
 [[lean_lib]]
 name = "ZxLean"
 
+[[require]]
+name = "proofwidgets"
+git = "https://github.com/leanprover-community/ProofWidgets4"
+rev = "v0.0.87"
+
 [[lean_exe]]
 name = "zxlean"
 root = "Main"
