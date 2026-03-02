@@ -2,3 +2,5 @@
 widget/node_modules/
 widget/dist/
 widget/build/
+pyzx_daemon/__pycache__/
+pyzx_daemon/.venv/

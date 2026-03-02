@@ -11,3 +11,23 @@ npm run build # compiles TS, bundles JS, and invalidates Lean cache
 cd ..
 lake build    # picks up the new widget JS
 ```
+
+## Python server
+
+The widget sends diagram data to a local Flask server for processing. To start it:
+
+```sh
+cd pyzx_daemon
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
+```
+
+The server runs on `http://127.0.0.1:5050`. You can test it with:
+
+```sh
+curl -X POST http://127.0.0.1:5050/diagram \
+  -H "Content-Type: application/json" \
+  -d '{"nodes":[],"edges":[]}'
+```
