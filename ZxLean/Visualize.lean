@@ -3,17 +3,16 @@ import ProofWidgets.Component.HtmlDisplay
 
 open Lean Server ProofWidgets
 
-/-- Start the pyzx rendering daemon if it is not already running. -/
+/-- Kill any existing pyzx daemon and start a fresh one. -/
 initialize do
-  let check ← IO.Process.output {
-    cmd := "curl"
-    args := #["-s", "-o", "/dev/null", "--connect-timeout", "1", "http://127.0.0.1:5050/"]
+  discard <| IO.Process.output {
+    cmd := "sh"
+    args := #["-c", "lsof -ti:5050 | xargs kill 2>/dev/null || true"]
   }
-  if check.exitCode != 0 then
-    discard <| IO.Process.spawn {
-      cmd := "sh"
-      args := #["-c", "cd pyzx_daemon && exec uv run python app.py >pyzx_daemon.log 2>&1"]
-    }
+  discard <| IO.Process.spawn {
+    cmd := "sh"
+    args := #["-c", "cd pyzx_daemon && exec uv run python -u app.py >pyzx_daemon.log 2>&1"]
+  }
 
 /-! # ZX Diagram Visualization
 
