@@ -3,15 +3,16 @@ import ProofWidgets.Component.HtmlDisplay
 
 open Lean Server ProofWidgets
 
--- Python daemon config
+-- == Python daemon config ==
 def daemonHost := "127.0.0.1"
 def daemonPort := 5050
 def daemonUrl := s!"http://{daemonHost}:{daemonPort}"
 
-/-- Kill any existing pyzx daemon and start a fresh one. -/
+-- == Auto-start Python daemon ==
 initialize do
   discard <| IO.Process.output {
     cmd := "sh"
+    -- Kill any existing pyzx daemon
     args := #["-c", s!"lsof -ti:{daemonPort} | xargs kill 2>/dev/null || true"]
   }
   discard <| IO.Process.spawn {
@@ -19,16 +20,7 @@ initialize do
     args := #["-c", s!"cd pyzx_daemon && exec uv run python -u app.py --host {daemonHost} --port {daemonPort} --debug >pyzx_daemon.log 2>&1"]
   }
 
-/-! # ZX Diagram Visualization
-
-Serializes a `ZXDiagram` to `Lean.Json` and provides a ProofWidgets4 component
-for rendering the diagram in the VS Code InfoView.
--/
-
--- ============================================================
--- JSON serialization
--- ============================================================
-
+-- == ZXDiagram JSON serialization (`ZXDiagram` to `Lean.Json`) ==
 private def natJson (n : Nat) : Json := .num { mantissa := ↑n, exponent := 0 }
 
 def Phase.toJson (p : Phase) : Json :=
@@ -54,18 +46,18 @@ def ZXDiagram.toJson (d : ZXDiagram) : Json :=
   let edges := d.edges.map Edge.toJson
   .mkObj [("nodes", .arr nodes), ("edges", .arr edges)]
 
--- ============================================================
--- ProofWidgets4 widget
--- ============================================================
-
+-- == ProofWidgets4 widget definition ==
+-- Props passed to widget
 structure ZXWidgetProps where
-  diagram : Json
-  serverUrl : String
+  diagram : Json      -- JSON representation of ZXDiagram
+  serverUrl : String  -- URL for Python daemon
   deriving RpcEncodable
 
+-- Widget definition
 @[widget_module]
 def ZXWidget : Component ZXWidgetProps where
   javascript := include_str ".." / "zx_view_widget" / "build" / "zxDiagram.js"
 
+-- Helper function which converts a ZXDiagram to HTML (passing the daemon URL)
 def ZXDiagram.toHtml (d : ZXDiagram) : Html :=
   Html.ofComponent ZXWidget ⟨d.toJson, daemonUrl⟩ #[]
