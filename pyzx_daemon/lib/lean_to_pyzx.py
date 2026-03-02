@@ -1,7 +1,8 @@
 from fractions import Fraction
 
-from pyzx.utils import VertexType, EdgeType
 from pyzx.graph import Graph
+from pyzx.utils import EdgeType, VertexType
+
 from .types import ZXLeanGraph
 
 

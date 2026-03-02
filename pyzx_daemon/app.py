@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from lib.lean_to_pyzx import zxlean_to_pyzx
