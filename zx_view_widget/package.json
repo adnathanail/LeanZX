@@ -1,5 +1,8 @@
 {
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "type": "module",
   "scripts": {
     "build": "tsc && rollup -c --environment NODE_ENV:production",
