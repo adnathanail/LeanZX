@@ -8,23 +8,27 @@ import matplotlib.pyplot as plt
 
 import pyzx as zx
 from pyzx.utils import VertexType, EdgeType
+from pyzx.graph import Graph
+from pyzx.graph.base import BaseGraph
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
+type ZXLeanGraph = BaseGraph[int, int]
 
-def zxlean_to_pyzx(data):
+
+def zxlean_to_pyzx(data) -> ZXLeanGraph:
     """Convert ZxLean JSON to a pyzx Graph."""
-    g = zx.Graph()
+    g: ZXLeanGraph = Graph()
     nodes = data.get("nodes", [])
     edges = data.get("edges", [])
 
     # Map from ZxLean node id -> pyzx vertex id
     id_map = {}
-    inputs = []
-    outputs = []
+    inputs: list[int] = []
+    outputs: list[int] = []
 
     for node in nodes:
         nid = node["id"]
@@ -57,8 +61,8 @@ def zxlean_to_pyzx(data):
     for v in outputs:
         g.set_row(v, max_row + 1)
 
-    g.set_inputs(inputs)
-    g.set_outputs(outputs)
+    g.set_inputs(tuple(inputs))
+    g.set_outputs(tuple(outputs))
 
     # Auto-layout spider positions
     _auto_layout(g)
@@ -74,7 +78,7 @@ def _parse_phase(s):
     return Fraction(int(s))
 
 
-def _auto_layout(g):
+def _auto_layout(g: ZXLeanGraph):
     """Simple left-to-right layout based on graph distance from inputs."""
     inputs = g.inputs()
     outputs = g.outputs()
@@ -115,7 +119,7 @@ def _auto_layout(g):
         row_counts[r] = count + 1
 
 
-def render_to_base64(g):
+def render_to_base64(g: ZXLeanGraph) -> str:
     """Render a pyzx graph to a base64-encoded PNG string."""
     fig = zx.draw_matplotlib(g, labels=True, figsize=(8, 2))
     buf = io.BytesIO()
