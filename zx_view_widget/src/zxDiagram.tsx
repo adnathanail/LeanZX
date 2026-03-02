@@ -65,6 +65,7 @@ export default function ZXDiagram({ diagram }: ZXWidgetProps) {
       )}
       <div style={{ marginTop: '8px' }}>
         <button
+          type="button"
           onClick={() => setShowJson(!showJson)}
           style={{ fontSize: '11px', cursor: 'pointer' }}
         >

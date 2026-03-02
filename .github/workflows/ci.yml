@@ -37,3 +37,21 @@ jobs:
         run: uv run ruff check
       - name: Run typechecking
         run: uv run ty check
+
+  zx_view_widget:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: zx_view_widget
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: zx_view_widget/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
