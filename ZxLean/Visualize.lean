@@ -56,7 +56,7 @@ structure ZXWidgetProps where
 -- Widget definition
 @[widget_module]
 def ZXWidget : Component ZXWidgetProps where
-  javascript := include_str ".." / "zx_view_widget" / "build" / "zxDiagram.js"
+  javascript := include_str ".." / ".lake" / "build" / "js" / "zxDiagram.js"
 
 -- Helper function which converts a ZXDiagram to HTML (passing the daemon URL)
 def ZXDiagram.toHtml (d : ZXDiagram) : Html :=

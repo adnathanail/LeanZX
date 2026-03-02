@@ -54,7 +54,7 @@ input_dir widgetJsSrcs where
   text := true
 
 /-- Target to build all widget modules from `widgetJsSrcs`. -/
-def widgetJsAllTarget (pkg : Package) (isDev : Bool) : FetchM (Job Unit) := do
+target widgetJsAll pkg : Unit := do
   let srcs ← widgetJsSrcs.fetch
   let rollupConfig ← widgetRollupConfig.fetch
   let tsconfig ← widgetTsconfig.fetch
@@ -66,13 +66,7 @@ def widgetJsAllTarget (pkg : Package) (isDev : Bool) : FetchM (Job Unit) := do
     let traceFile := pkg.buildDir / "js" / "lake.trace"
     buildUnlessUpToDate traceFile (← getTrace) traceFile do
       pkg.runNpmCommand #["clean-install"]
-      pkg.runNpmCommand #["run", if isDev then "build-dev" else "build"]
-
-target widgetJsAll pkg : Unit :=
-  widgetJsAllTarget pkg (isDev := false)
-
-target widgetJsAllDev pkg : Unit :=
-  widgetJsAllTarget pkg (isDev := true)
+      pkg.runNpmCommand #["run", "build-lake"]
 
 lean_lib ZxLean where
   needs := #[widgetJsAll]

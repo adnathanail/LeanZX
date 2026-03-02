@@ -8,7 +8,7 @@
     "build": "tsc && rollup -c --environment NODE_ENV:production",
     "build-dev": "tsc && rollup -c --environment NODE_ENV:development",
     "watch": "rollup -c --environment NODE_ENV:production --watch",
-    "clean": "rm -rf dist build"
+    "build-lake": "tsc && rollup -c --environment NODE_ENV:production,OUTPUT_DIR:../.lake/build/js"
   },
   "dependencies": {
     "react": "^18.2.0",

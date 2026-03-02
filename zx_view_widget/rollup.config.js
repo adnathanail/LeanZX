@@ -5,13 +5,14 @@ import terser from '@rollup/plugin-terser'
 import { readdirSync } from 'fs'
 
 const production = process.env.NODE_ENV === 'production'
+const outputDir = process.env.OUTPUT_DIR || 'build'
 
 const inputs = readdirSync('dist').filter(f => f.endsWith('.js')).map(f => `dist/${f}`)
 
 export default inputs.map(input => ({
   input,
   output: {
-    dir: 'build',
+    dir: outputDir,
     format: 'es',
     sourcemap: production ? false : 'inline',
     intro: 'const global = window;',
