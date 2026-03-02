@@ -48,4 +48,4 @@ structure ZXWidgetProps where
 
 @[widget_module]
 def ZXWidget : Component ZXWidgetProps where
-  javascript := include_str ".." / "widget" / "build" / "zxDiagram.js"
+  javascript := include_str ".." / "zx_view_widget" / "build" / "zxDiagram.js"

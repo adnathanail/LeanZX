@@ -2,10 +2,10 @@
 
 ## Widget development
 
-The InfoView widget lives in `widget/src/`. After editing the TypeScript source:
+The InfoView widget lives in `zx_view_widget/src/`. After editing the TypeScript source:
 
 ```sh
-cd widget
+cd zx_view_widget
 npm install   # first time only
 npm run build # compiles TS, bundles JS, and invalidates Lean cache
 cd ..

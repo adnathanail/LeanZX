@@ -9,7 +9,7 @@ package ZxLean where
 require proofwidgets from
   git "https://github.com/leanprover-community/ProofWidgets4" @ "v0.0.87"
 
-def widgetDir : FilePath := "widget"
+def widgetDir : FilePath := "zx_view_widget"
 
 nonrec def Lake.Package.widgetDir (pkg : Package) : FilePath :=
   pkg.dir / widgetDir
