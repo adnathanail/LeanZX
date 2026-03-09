@@ -22,3 +22,17 @@ def ZXDiagram.spiderFusion (d : ZXDiagram) (a b : NodeId) : Option ZXDiagram := 
   let d := { d with edges := d.edges ++ newEdges }
   let d := d.removeNode b
   return d
+
+def ZXDiagram.identityRemoval (d: ZXDiagram) (a : NodeId) : Option ZXDiagram := do
+  -- Check the node being removed has no phase
+  let node ← d.getNode? a
+  let phase ← Node.phase? node
+  guard (phase == ⟨0, 1⟩)
+  -- Check the node being removed only has 2 neighbors
+  let neighbors := d.neighbors a
+  guard (neighbors.size == 2)
+  -- Remove the node
+  let d := d.removeEdgesOf a
+  let d := d.removeNode a
+  let d := { d with edges := d.edges ++ #[⟨neighbors[0]!, neighbors[1]!⟩] }
+  return d

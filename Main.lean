@@ -35,5 +35,14 @@ def zCnotZFusedB := (zCnotZFusedA.spiderFusion 1 3).getD empty_graph
 #html zCnotZFusedA.toHtml
 #html zCnotZFusedB.toHtml
 
+def useless_identity : ZXDiagram :=
+  .ofArrays #[.input 0, .spider .Z ⟨1, 1⟩, .spider .Z ⟨0, 1⟩, .output 0]
+            #[⟨0, 1⟩, ⟨1, 2⟩, ⟨2, 3⟩]
+
+def id_removed := (useless_identity.identityRemoval 2).getD empty_graph
+
+#html useless_identity.toHtml
+#html id_removed.toHtml
+
 def main : IO Unit :=
   IO.println "Open Main.lean in VS Code to see the ZX diagram in the InfoView."
