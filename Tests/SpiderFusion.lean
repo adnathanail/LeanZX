@@ -18,7 +18,7 @@ def threeSpiders : ZXDiagram :=
 def threeSpidersMerged1 : ZXDiagram :=
   { nodes := #[some (.input 0), some (.spider .Z ⟨3, 2⟩), none, some (.spider .Z ⟨3, 4⟩), some (.output 0)]
     edges := #[⟨0, 1⟩, ⟨1, 3⟩, ⟨3, 4⟩] }
-def threeSpidersMerged2 : ZXDiagram :=  -- TODO simplify phase
+def threeSpidersMerged2 : ZXDiagram :=
   { nodes := #[some (.input 0), some (.spider .Z ⟨9, 4⟩), none, none, some (.output 0)]
     edges := #[⟨0, 1⟩, ⟨1, 4⟩] }
 

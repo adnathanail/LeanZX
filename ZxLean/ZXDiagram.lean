@@ -8,7 +8,20 @@ inductive SpiderColor where
 structure Phase where
   num : Int
   den : Nat := 1
-  deriving Repr, BEq
+  deriving Repr
+
+-- Remove common factors from numerator and denominator of a phase
+def Phase.simplify (p : Phase) : Phase :=
+  let g := Int.gcd p.num p.den
+  if g == 0 then p
+  else { num := p.num / g, den := p.den / g }
+
+-- Properly define equality for phases, so that 18/4 == 9/2
+instance : BEq Phase where
+  beq a b :=
+    let a := a.simplify
+    let b := b.simplify
+    a.num == b.num && a.den == b.den
 
 /-- a/b + c/d = (ad + bc)/bd -/
 def Phase.add (p q : Phase) : Phase :=
@@ -45,6 +58,8 @@ structure Edge where
   tgt : NodeId
   deriving Repr, BEq
 
+-- Define ordering of edges, so we can sort them,
+--   so we can make graph equality not care about edge order
 instance : Ord Edge where
   compare a b :=
     match compare a.src b.src with
@@ -58,6 +73,7 @@ structure ZXDiagram where
   edges : Array Edge
   deriving Repr, Inhabited
 
+-- Make graph equality not care about edge order by sorting the edge arrays
 instance : BEq ZXDiagram where
   beq a b := a.nodes == b.nodes && (a.edges).insertionSort == (b.edges).insertionSort
 
