@@ -47,7 +47,7 @@ structure Edge where
 structure ZXDiagram where
   nodes : Array (Option Node)
   edges : Array Edge
-  deriving Repr, BEq
+  deriving Repr, BEq, Inhabited
 
 /-- Build a ZXDiagram from an array of nodes (array indices become node IDs) -/
 def ZXDiagram.ofArrays (nodes : Array Node) (edges : Array Edge) : ZXDiagram :=
