@@ -11,3 +11,4 @@ pyzx_daemon/.venv/
 
 .claude/
 .vscode/
+.idea/

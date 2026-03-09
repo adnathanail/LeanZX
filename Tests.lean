@@ -76,8 +76,7 @@ def justPhaseFreeXSpiderIdentityRemoved : ZXDiagram :=
 def aZSpiderWithPhase : ZXDiagram :=
   .ofArrays #[.input 0, .spider .Z ⟨1, 1⟩, .output 0]
             #[⟨0, 1⟩, ⟨1, 2⟩]
--- TODO test panicking
--- #lspec test "trying to identity remove spider with phase should fail" ((aZSpiderWithPhase.identityRemoval 1).get! == justPhaseFreeXSpiderIdentityRemoved)
+#lspec test "trying to identity remove spider with phase should fail" ((aZSpiderWithPhase.identityRemoval 1) == none)
 
 def hadamardHadamard : ZXDiagram :=
   .ofArrays #[.input 0, .hadamard, .hadamard, .output 0]
