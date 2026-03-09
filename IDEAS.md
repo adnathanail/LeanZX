@@ -2,6 +2,8 @@
     - Simplify to canonical form?
     - Conversion to matrices?
     - Different node indexes?
+    - Make equality of edges ignore order
+    - Make equality of phases simplify first
 - Use PyZX D3 drawing of diagrams - as our output is a React component
 - Simplification routines as tactics
 - To/from circuit form
