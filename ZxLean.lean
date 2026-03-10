@@ -7,3 +7,4 @@ import ZxLean.Visualize
 import ZxLean.Tactics
 import ZxLean.Rules.SpiderFusion
 import ZxLean.Rules.IdentityRemoval
+import ZxLean.Rules.HadamardHadamard
