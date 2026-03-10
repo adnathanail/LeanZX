@@ -70,6 +70,10 @@ instance : Ord Edge where
 
 instance : LT Edge := Ord.toLT inferInstance
 
+/-- Canonicalize an edge so that src ≤ tgt (edges are undirected) -/
+def Edge.normalize (e : Edge) : Edge :=
+  if e.src ≤ e.tgt then e else { src := e.tgt, tgt := e.src }
+
 structure ZXDiagram where
   nodes : List (Option Node)
   edges : List Edge
@@ -118,3 +122,10 @@ def ZXDiagram.removeNode (d : ZXDiagram) (n : NodeId) : ZXDiagram :=
 /-- Set a node at a given ID -/
 def ZXDiagram.setNode (d : ZXDiagram) (id : NodeId) (n : Node) : ZXDiagram :=
   { d with nodes := d.nodes.set id (some n) }
+
+/-- Normalize a diagram: canonicalize edge direction, sort edges, and simplify phases -/
+def ZXDiagram.normalize (d : ZXDiagram) : ZXDiagram :=
+  { nodes := d.nodes.map fun
+      | some (.spider c p) => some (.spider c p.simplify)
+      | n => n
+    edges := (d.edges.map Edge.normalize).insertionSort }
