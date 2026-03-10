@@ -31,19 +31,19 @@ namespace ZxLean
 axiom ZXDiagram.spiderFusion_sound (d : ZXDiagram) (a b : NodeId) (d' : ZXDiagram) :
   d.spiderFusion a b = some d' → d ≈z d'
 
-/-- Find a neighbor of node `a` that can be fused with it (same-color spider). -/
+/-- Find the first neighbor of node `a` that can be fused with it (same-color spider). -/
 private def findFusionPartner (d : ZXDiagram) (a : NodeId) : Option NodeId := do
   let nodeA ← d.getNode? a
   let colorA ← nodeA.color?
-  let neighbors := d.neighbors a
-  neighbors.find? fun b =>
+  (d.neighbors a).find? fun b =>
     match d.getNode? b with
     | some nodeB => match nodeB.color? with
       | some colorB => colorA == colorB
       | none => false
     | none => false
 
-/-- Fuse two connected spiders of the same color. Shows the resulting diagram. -/
+/-- Fuse two connected spiders of the same color. Shows the resulting diagram.
+    With one argument, auto-finds a partner. Use `repeat zx_spider_fusion n` to fuse all. -/
 syntax "zx_spider_fusion" num num : tactic
 syntax "zx_spider_fusion" num : tactic
 
