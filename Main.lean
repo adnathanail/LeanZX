@@ -5,6 +5,28 @@ open ZxLean
 def main : IO Unit :=
   IO.println "Open Main.lean in VS Code to see the ZX diagram in the InfoView."
 
+#html cnot.toHtml
+
+theorem dozCnotZ : zCnotZ ≈z cnot := by
+  zx_show
+  zx_spider_fusion 1 2
+  zx_spider_fusion 1 3
+  zx_rfl
+
+def zHadHad : ZXDiagram :=
+  ZXDiagram.ofList
+    [.input 0, .spider .Z ⟨1, 1⟩, .hadamard, .hadamard, .output 0]
+    [⟨0, 1⟩, ⟨1, 2⟩, ⟨2, 3⟩, ⟨3, 4⟩]
+
+def zHadHadSimplified : ZXDiagram :=
+  { nodes := [some (.input 0), some (.spider .Z ⟨1, 1⟩), none, none, some (.output 0)]
+    edges := [⟨0, 1⟩, ⟨1, 4⟩] }
+
+theorem dozHadHadSimp : zHadHad ≈z zHadHadSimplified := by
+  zx_show
+  zx_hadamard_hadamard 2 3
+  zx_rfl
+
 def piPiPiMinus : ZXDiagram :=
   ZXDiagram.ofList
     [.input 0, .spider .Z ⟨1, 1⟩, .spider .Z ⟨1, 1⟩, .spider .Z ⟨-1, 1⟩, .output 0]
@@ -36,17 +58,3 @@ theorem doPpmSimp : piPiMinus ≈z ppmSimplified := by
   zx_rfl
 
 #print axioms doPpmSimp
-
-def zHadHad : ZXDiagram :=
-  ZXDiagram.ofList
-    [.input 0, .spider .Z ⟨1, 1⟩, .hadamard, .hadamard, .output 0]
-    [⟨0, 1⟩, ⟨1, 2⟩, ⟨2, 3⟩, ⟨3, 4⟩]
-
-def zHadHadSimplified : ZXDiagram :=
-  { nodes := [some (.input 0), some (.spider .Z ⟨1, 1⟩), none, none, some (.output 0)]
-    edges := [⟨0, 1⟩, ⟨1, 4⟩] }
-
-theorem dozHadHadSimp : zHadHad ≈z zHadHadSimplified := by
-  zx_show
-  zx_hadamard_hadamard 2 3
-  zx_rfl
