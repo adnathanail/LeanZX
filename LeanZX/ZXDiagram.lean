@@ -103,9 +103,22 @@ def ZXDiagram.getNode? (d : ZXDiagram) (id : NodeId) : Option Node :=
 def ZXDiagram.addNode (d : ZXDiagram) (n : Node) : ZXDiagram × NodeId :=
   ({ d with nodes := d.nodes ++ [some n] }, d.nodes.length)
 
+def ZXDiagram.addNodes (d : ZXDiagram) (ns : List Node) : ZXDiagram × (List NodeId) :=
+  match ns with
+    | [] => (d, [])
+    | n :: ns =>
+      let (d', id) := d.addNode n
+      let (d'', ids) := d'.addNodes ns
+      (d'', id :: ids)
+
 /-- Add an edge between two nodes -/
 def ZXDiagram.addEdge (d : ZXDiagram) (e : Edge) : ZXDiagram :=
   { d with edges := d.edges ++ [e] }
+
+def ZXDiagram.addEdges (d : ZXDiagram) (es : List Edge) : ZXDiagram :=
+  match es with
+    | [] => d
+    | e :: es => (d.addEdge e).addEdges es
 
 /-- Check whether two node IDs are connected by an edge -/
 def ZXDiagram.connected (d : ZXDiagram) (a b : NodeId) : Bool :=

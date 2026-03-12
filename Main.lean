@@ -5,21 +5,24 @@ open LeanZX
 def main : IO Unit :=
   IO.println "Open Main.lean in VS Code to see the ZX diagram in the InfoView."
 
-def zHadHad : ZXDiagram :=
+def zHadX : ZXDiagram :=
   ZXDiagram.ofList
-    [.input 0, .spider .Z ⟨1, 1⟩, .hadamard, .hadamard, .output 0]
+    [.input 0, .spider .Z ⟨1, 1⟩, .hadamard, .spider .X ⟨1, 1⟩, .output 0]
     [⟨0, 1⟩, ⟨1, 2⟩, ⟨2, 3⟩, ⟨3, 4⟩]
-def zHadHadSimplified : ZXDiagram :=
-  { nodes := [some (.input 0), some (.spider .Z ⟨1, 1⟩), none, none, some (.output 0)]
-    edges := [⟨0, 1⟩, ⟨1, 4⟩] }
-#html zHadHad.toHtml
-#html zHadHadSimplified.toHtml
+def zHadXSimplified : ZXDiagram :=
+  { nodes := [some (.input 0), none, none, none, some (.output 0), none, some (.hadamard)]
+    edges := [⟨0, 6⟩, ⟨4, 6⟩] }
+#html zHadX.toHtml
+#html zHadXSimplified.toHtml
 
-theorem dozHadHadSimp : zHadHad ≈z zHadHadSimplified := by
+theorem zHadXSimp : zHadX ≈z zHadXSimplified := by
   zx_show
-  zx_hh 2 3
+  zx_cc 3
+  zx_hh 2 5
+  zx_sp 1 3
+  zx_id 1
   zx_rfl
-#print axioms dozHadHadSimp
+#print axioms zHadXSimp
 
 #html zCnotZ.toHtml
 #html cnot.toHtml
