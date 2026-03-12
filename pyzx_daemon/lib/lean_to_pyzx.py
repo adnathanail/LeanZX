@@ -105,12 +105,25 @@ def _auto_layout(g: ZXLeanGraph):
     for v in outputs:
         g.set_row(v, max_depth)
 
-    # Assign qubit indices to interior vertices that don't have one
-    row_counts = {}
+    # Assign qubit indices to interior vertices, avoiding collisions
+    # First, record which qubit slots are already taken per row (by inputs/outputs)
+    row_taken: dict[int, set[int]] = {}
+    for v in inputs:
+        r = int(g.row(v))
+        row_taken.setdefault(r, set()).add(int(g.qubit(v)))
+    for v in outputs:
+        r = int(g.row(v))
+        row_taken.setdefault(r, set()).add(int(g.qubit(v)))
+
+    row_counts: dict[int, int] = {}
     for v in g.vertices():
         if v in inputs or v in outputs:
             continue
-        r = g.row(v)
+        r = int(g.row(v))
         count = row_counts.get(r, 0)
+        taken = row_taken.get(r, set())
+        # Skip slots occupied by boundary nodes
+        while count in taken:
+            count += 1
         g.set_qubit(v, count)
         row_counts[r] = count + 1

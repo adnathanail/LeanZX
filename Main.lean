@@ -5,6 +5,7 @@ open LeanZX
 def main : IO Unit :=
   IO.println "Open Main.lean in VS Code to see the ZX diagram in the InfoView."
 
+-- Define some diagrams
 def zHadX : ZXDiagram :=
   ZXDiagram.ofList
     [.input 0, .spider .Z ⟨1, 1⟩, .hadamard, .spider .X ⟨1, 1⟩, .output 0]
@@ -12,9 +13,11 @@ def zHadX : ZXDiagram :=
 def zHadXSimplified : ZXDiagram :=
   { nodes := [some (.input 0), none, none, none, some (.output 0), none, some (.hadamard)]
     edges := [⟨0, 6⟩, ⟨4, 6⟩] }
+-- Display them in the InfoView (∀ icon at the top right > Toggle InfoView)
 #html zHadX.toHtml
 #html zHadXSimplified.toHtml
 
+-- Prove they are equivalent
 theorem zHadXSimp : zHadX ≈z zHadXSimplified := by
   zx_show
   zx_cc 3
@@ -24,9 +27,9 @@ theorem zHadXSimp : zHadX ≈z zHadXSimplified := by
   zx_rfl
 #print axioms zHadXSimp
 
+-- Example (Z ⊗ I)CNOT(Z ⊗ I): Z commutes with CNOT, and cancels with the second Z
 #html zCnotZ.toHtml
 #html cnot.toHtml
--- Z commutes with CNOT, and cancels with the second Z
 theorem dozCnotZ : zCnotZ ≈z cnot := by
   zx_show
   zx_sp 1 2
@@ -80,13 +83,13 @@ def exercise3point7 : ZXDiagram :=
     ]
     [
       ⟨0, 1⟩, ⟨1, 2⟩, ⟨2, 3⟩,
-      ⟨4, 3⟩,
-      ⟨5, 6⟩, ⟨6, 7⟩, ⟨7, 8⟩, ⟨8, 9⟩, ⟨9, 10⟩, ⟨10, 11⟩,
+      ⟨4, 2⟩,
+      ⟨5, 6⟩, ⟨6, 7⟩, ⟨7, 8⟩, ⟨8, 1⟩, ⟨8, 9⟩, ⟨9, 10⟩, ⟨10, 4⟩, ⟨10, 11⟩,
       ⟨12, 13⟩, ⟨13, 6⟩, ⟨13, 14⟩, ⟨14, 15⟩,
     ]
 #html exercise3point7.toHtml
 
--- Aimless exploration: just play with a diagram and see what happens
+-- Current challenges: rendering
 example : ∃ d', exercise3point7 ≈z d' := by
   zx_explore
   zx_sp 12 13
@@ -94,7 +97,12 @@ example : ∃ d', exercise3point7 ≈z d' := by
   zx_id 12
   zx_sp 14 6
   zx_cc 8
-  zx_hh 7 16
-  zx_hh 9 17
+  zx_hh 7 17
+  zx_hh 9 18
   zx_sp 14 8
   zx_rfl
+
+-- Also graph equality
+--   Implemented some normalization: edges are always ordered, phases are always simplified
+--   Another cheap win: strip out nones from the node list
+--   Medium-term: graph ismorphism
