@@ -93,10 +93,11 @@ def _auto_layout(g: ZXLeanGraph):
                 visited[neighbor] = visited[current] + 1
                 queue.append(neighbor)
 
-    # Set rows for non-boundary vertices
+    # Set rows for non-boundary, non-H-box vertices
+    # H boxes are skipped so auto_hbox in the D3 viewer positions them
     max_depth = max(visited.values(), default=1)
     for v, depth in visited.items():
-        if v not in inputs and v not in outputs:
+        if v not in inputs and v not in outputs and g.type(v) != VertexType.H_BOX:
             g.set_row(v, depth)
 
     # Set output row to max_depth
@@ -115,7 +116,7 @@ def _auto_layout(g: ZXLeanGraph):
 
     row_counts: dict[int, int] = {}
     for v in g.vertices():
-        if v in inputs or v in outputs:
+        if v in inputs or v in outputs or g.type(v) == VertexType.H_BOX:
             continue
         r = int(g.row(v))
         count = row_counts.get(r, 0)

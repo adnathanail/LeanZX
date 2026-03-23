@@ -67,27 +67,26 @@ await micropip.install(${JSON.stringify(micropipDeps)}, deps=False)
   return pyodideReady
 }
 
-// Make d3 available on window for the viewer JS
-;(window as unknown as Record<string, unknown>).d3 = d3
-
-// Eval the viewer module once and cache the showGraph function
+// Eval the viewer module once and cache the showGraph function.
+// pyzx's zx_viewer.inline.js reads `_settings_colors` and `d3` from its scope.
 let showGraphFn: ((
-  container: HTMLElement,
+  tag: HTMLElement,
   graph: unknown,
   width: number,
   height: number,
   scale: number,
   node_size: number,
-  colors: Record<string, string>,
+  auto_hbox: boolean,
   show_labels: boolean,
+  scalar_str: string,
 ) => void) | null = null
 
-function getShowGraph() {
+function getShowGraph(colors: Record<string, string>) {
   if (showGraphFn) return showGraphFn
-  // The viewer JS exports showGraph — eval it as a module
   const mod: Record<string, unknown> = {}
-  const fn = new Function('exports', zxViewerJs + '\nexports.showGraph = showGraph;')
-  fn(mod)
+  // Inject _settings_colors into the function scope
+  const fn = new Function('exports', '_settings_colors', 'd3', zxViewerJs + '\nexports.showGraph = showGraph;')
+  fn(mod, colors, d3)
   showGraphFn = mod.showGraph as typeof showGraphFn
   return showGraphFn!
 }
@@ -150,7 +149,7 @@ export default function ZXDiagram({ diagram }: ZXWidgetProps) {
     const container = containerRef.current
     // Clear previous SVG
     container.innerHTML = ''
-    const show = getShowGraph()
+    const show = getShowGraph(renderData.colors)
     show(
       container,
       renderData.graph,
@@ -158,8 +157,9 @@ export default function ZXDiagram({ diagram }: ZXWidgetProps) {
       renderData.height,
       renderData.scale,
       renderData.node_size,
-      renderData.colors,
+      true, // auto_hbox
       true, // show_labels
+      '',   // scalar_str
     )
   }, [renderData])
 
