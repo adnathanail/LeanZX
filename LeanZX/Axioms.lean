@@ -2,14 +2,23 @@ import LeanZX.ZXDiagram
 
 namespace LeanZX
 
-/-- Semantic equivalence of ZX diagrams (same linear map) -/
-axiom ZXDiagram.equiv : ZXDiagram → ZXDiagram → Prop
+/-- Equivalence of ZX diagrams: equal after normalization -/
+def ZXDiagram.equiv (d₁ d₂ : ZXDiagram) : Prop :=
+  d₁.normalize = d₂.normalize
 
 scoped infix:50 " ≈z " => ZXDiagram.equiv
 
--- Equivalence relation properties
-axiom ZXDiagram.equiv_refl (d : ZXDiagram) : d ≈z d
-axiom ZXDiagram.equiv_symm {d₁ d₂ : ZXDiagram} : d₁ ≈z d₂ → d₂ ≈z d₁
-axiom ZXDiagram.equiv_trans {d₁ d₂ d₃ : ZXDiagram} : d₁ ≈z d₂ → d₂ ≈z d₃ → d₁ ≈z d₃
+instance (d₁ d₂ : ZXDiagram) : Decidable (d₁ ≈z d₂) :=
+  inferInstanceAs (Decidable (d₁.normalize = d₂.normalize))
+
+-- Equivalence relation properties (all provable now, no axioms needed)
+theorem ZXDiagram.equiv_refl (d : ZXDiagram) : d ≈z d :=
+  rfl
+
+theorem ZXDiagram.equiv_symm {d₁ d₂ : ZXDiagram} : d₁ ≈z d₂ → d₂ ≈z d₁ :=
+  Eq.symm
+
+theorem ZXDiagram.equiv_trans {d₁ d₂ d₃ : ZXDiagram} : d₁ ≈z d₂ → d₂ ≈z d₃ → d₁ ≈z d₃ :=
+  Eq.trans
 
 end LeanZX
