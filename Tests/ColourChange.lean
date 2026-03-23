@@ -1,0 +1,34 @@
+import LSpec
+import LeanZX.All
+
+open LSpec
+
+-- Colour change a Z spider to X, surrounded by Hadamards
+def zSpider : ZXDiagram :=
+  .ofList [.input 0, .spider .Z ⟨1, 2⟩, .output 0]
+          [⟨0, 1⟩, ⟨1, 2⟩]
+def zSpiderColourChanged : ZXDiagram :=
+  { nodes := [some (.input 0), some (.spider .X ⟨1, 2⟩), some (.output 0),
+              some (.hadamard), some (.hadamard)]
+    edges := [⟨0, 3⟩, ⟨1, 3⟩, ⟨1, 4⟩, ⟨2, 4⟩] }
+
+-- Colour change an X spider to Z
+def xSpider : ZXDiagram :=
+  .ofList [.input 0, .spider .X ⟨1, 1⟩, .output 0]
+          [⟨0, 1⟩, ⟨1, 2⟩]
+def xSpiderColourChanged : ZXDiagram :=
+  { nodes := [some (.input 0), some (.spider .Z ⟨1, 1⟩), some (.output 0),
+              some (.hadamard), some (.hadamard)]
+    edges := [⟨0, 3⟩, ⟨1, 3⟩, ⟨1, 4⟩, ⟨2, 4⟩] }
+
+-- Error: not a spider
+def hadamardNode : ZXDiagram :=
+  .ofList [.input 0, .hadamard, .output 0]
+          [⟨0, 1⟩, ⟨1, 2⟩]
+
+def colourChangeTests : TestSeq :=
+  test "Z to X colour change" ((zSpider.colourChange 1).get! == zSpiderColourChanged) $
+  test "X to Z colour change" ((xSpider.colourChange 1).get! == xSpiderColourChanged) $
+  test "non-spider rejected" ((hadamardNode.colourChange 1).isError)
+
+#lspec colourChangeTests
