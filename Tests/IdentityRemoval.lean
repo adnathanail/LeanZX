@@ -1,5 +1,5 @@
 import LSpec
-import LeanZX
+import LeanZX.All
 
 open LSpec
 
