@@ -48,7 +48,7 @@ function loadPyodideLocal() {
     await pyodide.loadPackage(['micropip', 'numpy', 'networkx', 'typing-extensions', 'tqdm', 'matplotlib'])
     await pyodide.runPythonAsync(`
 import micropip
-await micropip.install(['lark', 'pyperclip', 'pyzx'], deps=False)
+await micropip.install(['lark==1.3.1', 'pyperclip==1.11.0', 'pyzx==0.10.0'], deps=False)
 `)
     await pyodide.runPythonAsync(zxRenderPy)
 
