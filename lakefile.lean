@@ -72,9 +72,11 @@ target widgetJsAll pkg : Unit := do
       pkg.runNpmCommand #["run", "build-lake"]
 
 lean_lib LeanZX where
+  globs := #[.submodules `LeanZX]
   needs := #[widgetJsAll]
 
 lean_lib Tests where
+  globs := #[.submodules `Tests]
 
 @[default_target]
 lean_exe leanzx where

@@ -1,4 +1,4 @@
-import LeanZX
+import LeanZX.All
 
 open LeanZX
 
