@@ -11,7 +11,8 @@ declare module 'pyodide-bundled/stdlib' {
   export default dataUrl
 }
 declare module 'pyodide-bundled/lock' {
-  const contents: unknown
+  import type { Lockfile } from 'pyodide'
+  const contents: Lockfile
   export default contents
 }
 

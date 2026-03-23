@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { loadPyodide } from 'pyodide'
+import { loadPyodide, version as pyodideVersion } from 'pyodide'
 import pyodideAsmJs from 'pyodide-bundled/asm-js'
 import wasmDataUrl from 'pyodide-bundled/wasm'
 import stdlibDataUrl from 'pyodide-bundled/stdlib'
@@ -41,8 +41,8 @@ function loadPyodideLocal() {
 
     const pyodide = await loadPyodide({
       indexURL: 'http://pyodide.local/',
-      lockFileContents: lockFileContents as string,
-      packageBaseUrl: 'https://cdn.jsdelivr.net/pyodide/v0.29.3/full/',
+      lockFileContents: lockFileContents,
+      packageBaseUrl: `https://cdn.jsdelivr.net/pyodide/v${pyodideVersion}/full/`,
     })
 
     await pyodide.loadPackage(['micropip', 'numpy', 'networkx', 'typing-extensions', 'tqdm', 'matplotlib'])
