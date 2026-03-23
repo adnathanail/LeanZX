@@ -56,6 +56,29 @@ const rawPy = {
   },
 }
 
+// Reads [dependency-groups] from pyproject.toml and exposes them as virtual modules.
+function parseDepsGroup(toml, group) {
+  const re = new RegExp(`^${group.replace('-', '\\-')}\\s*=\\s*\\[([^\\]]*)]`, 'm')
+  const match = toml.match(re)
+  if (!match) throw new Error(`Could not find dependency group '${group}' in pyproject.toml`)
+  return [...match[1].matchAll(/"([^"]+)"/g)].map(m => m[1])
+}
+
+const pythonDeps = {
+  name: 'python-deps',
+  resolveId(id) {
+    if (id === 'python-deps/load' || id === 'python-deps/micropip') return `\0${id}`
+  },
+  load(id) {
+    if (id === '\0python-deps/load' || id === '\0python-deps/micropip') {
+      const toml = readFileSync(path.join(__dirname, 'pyproject.toml'), 'utf8')
+      const group = id === '\0python-deps/load' ? 'pyodide-load' : 'pyodide-micropip'
+      const deps = parseDepsGroup(toml, group)
+      return `export default ${JSON.stringify(deps)};`
+    }
+  },
+}
+
 const production = process.env.NODE_ENV === 'production'
 const outputDir = process.env.OUTPUT_DIR || 'build'
 
@@ -78,6 +101,7 @@ export default inputs.map(input => ({
   plugins: [
     pyodideBundled,
     rawPy,
+    pythonDeps,
     resolve({ browser: true }),
     replace({
       preventAssignment: true,

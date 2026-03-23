@@ -16,6 +16,16 @@ declare module 'pyodide-bundled/lock' {
   export default contents
 }
 
+declare module 'python-deps/load' {
+  const deps: string[]
+  export default deps
+}
+
+declare module 'python-deps/micropip' {
+  const deps: string[]
+  export default deps
+}
+
 declare module '*.py' {
   const code: string
   export default code

@@ -5,6 +5,8 @@ import wasmDataUrl from 'pyodide-bundled/wasm'
 import stdlibDataUrl from 'pyodide-bundled/stdlib'
 import lockFileContents from 'pyodide-bundled/lock'
 import zxRenderPy from './zxRender.py'
+import pyodideLoadDeps from 'python-deps/load'
+import micropipDeps from 'python-deps/micropip'
 
 async function dataUrlToBuffer(dataUrl: string): Promise<ArrayBuffer> {
   return fetch(dataUrl).then(r => r.arrayBuffer())
@@ -46,10 +48,12 @@ function loadPyodideLocal() {
     })
     globalThis.fetch = realFetch
 
-    await pyodide.loadPackage(['micropip', 'numpy', 'networkx', 'typing-extensions', 'tqdm', 'matplotlib'])
+    await pyodide.loadPackage(['micropip', ...pyodideLoadDeps])
+    // We disable dependency resolution, because some dependencies don't work
+    //   with pyodide (e.g. numba), but it turns out we don't actually need them
     await pyodide.runPythonAsync(`
 import micropip
-await micropip.install(['lark==1.3.1', 'pyperclip==1.11.0', 'pyzx==0.10.0'], deps=False)
+await micropip.install(${JSON.stringify(micropipDeps)}, deps=False)
 `)
     await pyodide.runPythonAsync(zxRenderPy)
 
