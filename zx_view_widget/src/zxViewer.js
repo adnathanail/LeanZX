@@ -1,7 +1,7 @@
 // Based on pyzx's zx_viewer.inline.js (Apache 2.0)
 // Modified: added click-to-highlight-neighbours, adapted for ES module use.
 
-export function showGraph(container, graph, width, height, scale, node_size, colors, show_labels) {
+function showGraph(container, graph, width, height, scale, node_size, colors, show_labels) {
     var d3 = window.d3;
     var ntab = {};
     var groundOffset = 2.5 * node_size;
