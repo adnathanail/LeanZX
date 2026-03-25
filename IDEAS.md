@@ -1,7 +1,6 @@
 - Better equality checking
     - Simplify to canonical form?
     - Conversion to matrices?
-    - Do normalization in equality checks, not in rewrites
 - Simplification routines as tactics
 - To/from circuit form
 - Is the custom insertion sort slow?
@@ -12,3 +11,5 @@
 - Better layouts
     - _auto_layout skips vertices unreachable from inputs (zxRender.py ~line 100)
         - The BFS starts from inputs — disconnected spiders get no row/qubit assignment and default to position 0, causing visual overlap.
+- Interactive rewrites
+- Prove rewrites
