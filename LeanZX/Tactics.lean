@@ -93,6 +93,20 @@ elab tk:"zx_show" : tactic => withMainContext do
   let (lhs, rhs) ← parseEquivGoal goalType
   showDiagram tk "Current diagram" lhs rhs
 
+/-- Print the JSON for the current LHS and RHS diagrams to the InfoView. -/
+elab "zx_debug" : tactic => withMainContext do
+  let goal ← getMainGoal
+  let goalType ← goal.getType
+  let (lhs, rhs) ← parseEquivGoal goalType
+  let dLhs ← evalZXDiagram lhs
+  let lhsJson := dLhs.toJson
+  let mut msg := s!"LHS:\n{lhsJson.pretty}"
+  if !rhs.isMVar then
+    let dRhs ← evalZXDiagram rhs
+    let rhsJson := dRhs.toJson
+    msg := msg ++ s!"\n\nRHS:\n{rhsJson.pretty}"
+  logInfo msg
+
 /-- Close a `d₁ ≈z d₂` goal by normalization (both sides normalize to the same diagram). -/
 elab "zx_rfl" : tactic => withMainContext do
   let goal ← getMainGoal
