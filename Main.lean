@@ -148,3 +148,37 @@ example : ∃ d', hadWire ≈z d' := by
 --   Implemented some normalization - edges are always ordered, phases are always simplified
 --   Another cheap win - strip out nones from the node list
 --   Medium-term - graph ismorphism
+
+-- Quantum teleportation demo:
+--   We can't deal with parameters directly
+--   But they are defined as Lean variables, which you can change,
+--     and the proof will always hold
+def α : Phase := ⟨1, 1⟩
+def β : Phase := ⟨1, 1⟩
+def teleportationStart : ZXDiagram :=
+  ZXDiagram.ofList
+    [
+      .input 0, .spider .Z ⟨0, 1⟩, .hadamard, .spider .X α,
+      .spider .X ⟨0, 1⟩, .spider .X β,
+      .spider .X β, .spider .Z α, .output 0
+    ]
+    [
+      ⟨0, 1⟩, ⟨1, 2⟩, ⟨2, 3⟩,
+      ⟨1, 4⟩, ⟨4, 5⟩,
+      ⟨4, 6⟩, ⟨6, 7⟩, ⟨7, 8⟩,
+    ]
+def teleportationEnd : ZXDiagram :=
+  { nodes := [some (.input 0), none, none, none, none, none, none, none, some (.output 0), none]
+    edges := [⟨0, 8⟩] }
+#html teleportationStart.toHtml
+
+theorem doTeleportationSimp : teleportationStart ≈z teleportationEnd := by
+  zx_show
+  zx_cc 3
+  zx_hh 2 9
+  zx_sp 1 3
+  repeat zx_sp 4
+  zx_id 4
+  zx_sp 1 7
+  zx_id 1
+  zx_rfl
