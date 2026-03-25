@@ -153,14 +153,14 @@ example : ∃ d', hadWire ≈z d' := by
 --   We can't deal with parameters directly
 --   But they are defined as Lean variables, which you can change,
 --     and the proof will always hold
-def α : Phase := ⟨1, 1⟩
-def β : Phase := ⟨1, 1⟩
+def α : Nat := 0
+def β : Nat := 1
 def teleportationStart : ZXDiagram :=
   ZXDiagram.ofList
     [
-      .input 0, .spider .Z ⟨0, 1⟩, .hadamard, .spider .X α,
-      .spider .X ⟨0, 1⟩, .spider .X β,
-      .spider .X β, .spider .Z α, .output 0
+      .input 0, .spider .Z ⟨0, 1⟩, .hadamard, .spider .X ⟨α, 1⟩,
+      .spider .X ⟨0, 1⟩, .spider .X ⟨β, 1⟩,
+      .spider .X ⟨β, 1⟩, .spider .Z ⟨α, 1⟩, .output 0
     ]
     [
       ⟨0, 1⟩, ⟨1, 2⟩, ⟨2, 3⟩,
