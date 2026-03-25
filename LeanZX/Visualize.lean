@@ -29,11 +29,15 @@ def Node.toJson (n : Node) (idx : Nat) : Json :=
 def Edge.toJson (e : Edge) : Json :=
   .mkObj [("src", natJson e.src), ("tgt", natJson e.tgt)]
 
-def ZXDiagram.toJson (d : ZXDiagram) : Json :=
+def ZXDiagram.toJson (d : ZXDiagram) (includeNones : Bool := false) : Json :=
   let nodes := d.nodes.foldl (init := (#[], 0)) fun (acc, idx) opt =>
     match opt with
     | some n => (acc.push (n.toJson idx), idx + 1)
-    | none   => (acc, idx + 1)
+    | none   =>
+      -- Display nones in JSON, for zx_debug
+      if includeNones then
+        (acc.push (.mkObj [("id", natJson idx), ("type", .str "none")]), idx + 1)
+      else (acc, idx + 1)
   let nodes := nodes.1
   let edges := (d.edges.map Edge.toJson).toArray
   .mkObj [("nodes", .arr nodes), ("edges", .arr edges)]

@@ -99,11 +99,11 @@ elab "zx_debug" : tactic => withMainContext do
   let goalType ← goal.getType
   let (lhs, rhs) ← parseEquivGoal goalType
   let dLhs ← evalZXDiagram lhs
-  let lhsJson := dLhs.toJson
+  let lhsJson := dLhs.toJson (includeNones := true)
   let mut msg := s!"LHS:\n{lhsJson.pretty}"
   if !rhs.isMVar then
     let dRhs ← evalZXDiagram rhs
-    let rhsJson := dRhs.toJson
+    let rhsJson := dRhs.toJson (includeNones := true)
     msg := msg ++ s!"\n\nRHS:\n{rhsJson.pretty}"
   logInfo msg
 
