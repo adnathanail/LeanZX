@@ -48,6 +48,7 @@ theorem dozCnotZ : zCnotZ ≈z cnot := by
   zx_show
   zx_sp 1 2
   zx_sp 1 3
+  -- If you need to see the raw json, you can use the zx_debug tactic
   zx_debug
   zx_rfl
 #print axioms dozCnotZ
