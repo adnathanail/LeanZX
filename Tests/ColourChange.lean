@@ -3,6 +3,8 @@ import LeanZX.All
 
 open LSpec LeanZX
 
+namespace ColourChange
+
 -- Colour change a Z spider to X, surrounded by Hadamards
 def zSpider : ZXDiagram :=
   .ofList [.input 0, .spider .Z ⟨1, 2⟩, .output 0]
@@ -29,4 +31,6 @@ def colourChangeTests : TestSeq :=
   test "X to Z colour change" ((xSpider.colourChange 1).get! ≈z xSpiderColourChanged) $
   test "non-spider rejected" ((hadamardNode.colourChange 1).isError)
 
-#lspec colourChangeTests
+end ColourChange
+
+#lspec ColourChange.colourChangeTests

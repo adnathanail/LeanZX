@@ -3,6 +3,8 @@ import LeanZX.All
 
 open LSpec LeanZX
 
+namespace HadamardHadamard
+
 -- Two adjacent Hadamards cancel
 def twoHadamards : ZXDiagram :=
   .ofList [.input 0, .hadamard, .hadamard, .output 0]
@@ -32,4 +34,6 @@ def hadamardHadamardTests : TestSeq :=
   test "disconnected rejected" ((disconnectedHadamards.hadamardHadamard 1 2).isError) $
   test "branched Hadamard rejected" ((branchedHadamard.hadamardHadamard 1 2).isError)
 
-#lspec hadamardHadamardTests
+end HadamardHadamard
+
+#lspec HadamardHadamard.hadamardHadamardTests

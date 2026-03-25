@@ -3,6 +3,8 @@ import LeanZX.All
 
 open LSpec LeanZX
 
+namespace EulerDecomp
+
 def hadWire : ZXDiagram :=
   .ofList [.input 0, .hadamard, .output 0]
           [⟨0, 1⟩, ⟨1, 2⟩]
@@ -61,4 +63,6 @@ def eulerDecompTests : TestSeq :=
   test "invalid variant rejected" ((hadWire.eulerDecomp 1 7).isError) $
   test "node not found rejected" ((hadWire.eulerDecomp 99 1).isError)
 
-#lspec eulerDecompTests
+end EulerDecomp
+
+#lspec EulerDecomp.eulerDecompTests

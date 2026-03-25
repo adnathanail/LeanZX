@@ -3,6 +3,8 @@ import LeanZX.All
 
 open LSpec LeanZX
 
+namespace SpiderUnfusion
+
 -- Fuse two Z(π/2) and Z(π) spiders, then unfuse back with the same phase split.
 -- The round-trip changes node ordering (unfusion appends the new spider at the end),
 -- so the result is ≈z to a diagram with nodes reordered: [input, Z(π/2), output, Z(π)].
@@ -85,4 +87,6 @@ def spiderUnfusionTests : TestSeq :=
     (let fused := (twoSpiders.spiderFusion 1 2).get!
      (fused.spiderUnfusion 1 ⟨1, 2⟩ ⟨1, 1⟩ [2]).isError)
 
-#lspec spiderUnfusionTests
+end SpiderUnfusion
+
+#lspec SpiderUnfusion.spiderUnfusionTests

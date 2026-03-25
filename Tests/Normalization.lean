@@ -3,6 +3,8 @@ import LeanZX.All
 
 open LSpec LeanZX
 
+namespace Normalization
+
 -- == Phase simplification tests ==
 
 -- 2/2 simplifies to 1/1
@@ -103,4 +105,6 @@ def normalizationTests : TestSeq :=
   -- Combined
   test "compaction + normalization together" (messy ≈z clean)
 
-#lspec normalizationTests
+end Normalization
+
+#lspec Normalization.normalizationTests

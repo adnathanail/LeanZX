@@ -3,6 +3,8 @@ import LeanZX.All
 
 open LSpec LeanZX
 
+namespace SpiderFusion
+
 -- Test merging two spiders
 def twoSpiders : ZXDiagram :=
   .ofList [.input 0, .spider .Z ⟨1, 2⟩, .spider .Z ⟨1, 1⟩, .output 0]
@@ -37,4 +39,6 @@ def spiderFusionTests : TestSeq :=
   test "simplifying Z CNOT Z to just CNOT" ((((zCnotZ.spiderFusion 1 2).get!).spiderFusion 1 3).get! ≈z cnot) $
   test "two π spiders fuse to identity (phase 0)" ((twoPiSpiders.spiderFusion 1 2).get! ≈z twoPiSpidersMerged)
 
-#lspec spiderFusionTests
+end SpiderFusion
+
+#lspec SpiderFusion.spiderFusionTests

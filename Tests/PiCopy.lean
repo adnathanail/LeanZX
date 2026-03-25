@@ -3,6 +3,8 @@ import LeanZX.All
 
 open LSpec LeanZX
 
+namespace PiCopy
+
 -- Test pushing a green π spider through an adjacent red π/2 spider
 def piCopyBasic : ZXDiagram :=
   .ofList [.input 0, .spider .Z ⟨1, 1⟩, .spider .X ⟨1, 2⟩, .output 0]
@@ -33,4 +35,6 @@ def piCopyTests : TestSeq :=
   test "non-π phase rejected" ((nonPiPhase.piCopy 1 2).isError) $
   test "too many neighbors rejected" ((tooManyNeighbors.piCopy 1 2).isError)
 
-#lspec piCopyTests
+end PiCopy
+
+#lspec PiCopy.piCopyTests
