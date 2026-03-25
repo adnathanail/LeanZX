@@ -1,4 +1,5 @@
 import Tests.SpiderFusion
+import Tests.SpiderUnfusion
 import Tests.IdentityRemoval
 import Tests.PiCopy
 import Tests.HadamardHadamard
@@ -7,4 +8,4 @@ import Tests.Normalization
 
 open LSpec
 
-#lspec spiderFusionTests ++ identityRemovalTests ++ piCopyTests ++ hadamardHadamardTests ++ colourChangeTests ++ normalizationTests
+#lspec spiderFusionTests ++ spiderUnfusionTests ++ identityRemovalTests ++ piCopyTests ++ hadamardHadamardTests ++ colourChangeTests ++ normalizationTests
