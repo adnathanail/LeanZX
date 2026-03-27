@@ -3,7 +3,7 @@
 import Lake
 open Lake DSL System
 
-package LeanZX where
+package LeanSpider where
   version := v!"0.1.0"
 
 require proofwidgets from
@@ -71,13 +71,13 @@ target widgetJsAll pkg : Unit := do
       pkg.runNpmCommand #["clean-install"]
       pkg.runNpmCommand #["run", "build-lake"]
 
-lean_lib LeanZX where
-  globs := #[.submodules `LeanZX]
+lean_lib LeanSpider where
+  globs := #[.submodules `LeanSpider]
   needs := #[widgetJsAll]
 
 lean_lib Tests where
   globs := #[.submodules `Tests]
 
 @[default_target]
-lean_exe leanzx where
+lean_exe leanspider where
   root := `Main

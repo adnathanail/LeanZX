@@ -1,5 +1,5 @@
-import LeanZX.Rules.SpiderFusion
-import LeanZX.Rules.IdentityRemoval
+import LeanSpider.Rules.SpiderFusion
+import LeanSpider.Rules.IdentityRemoval
 
 /-- Fuse two connected same-color π-spiders and remove the resulting identity.
     Usage: `zx_pipi n` where `n` is one of the two spider node IDs. -/

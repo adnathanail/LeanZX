@@ -1,10 +1,10 @@
-import LeanZX.Axioms
-import LeanZX.Visualize
+import LeanSpider.Axioms
+import LeanSpider.Visualize
 import ProofWidgets.Component.HtmlDisplay
 
 open Lean Elab Tactic Meta ProofWidgets
 
-namespace LeanZX
+namespace LeanSpider
 
 -- == Evaluation (for visualization only) ==
 
@@ -138,4 +138,4 @@ elab tk:"zx_explore" : tactic => withMainContext do
   let (lhs, rhs) ← parseEquivGoal goalType
   showDiagram tk "Current diagram" lhs rhs
 
-end LeanZX
+end LeanSpider

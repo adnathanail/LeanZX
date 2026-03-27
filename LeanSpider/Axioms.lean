@@ -1,6 +1,6 @@
-import LeanZX.ZXDiagram
+import LeanSpider.ZXDiagram
 
-namespace LeanZX
+namespace LeanSpider
 
 /-- Equivalence of ZX diagrams: equal after compaction and normalization -/
 def ZXDiagram.equiv (d₁ d₂ : ZXDiagram) : Prop :=
@@ -21,4 +21,4 @@ theorem ZXDiagram.equiv_symm {d₁ d₂ : ZXDiagram} : d₁ ≈z d₂ → d₂ �
 theorem ZXDiagram.equiv_trans {d₁ d₂ d₃ : ZXDiagram} : d₁ ≈z d₂ → d₂ ≈z d₃ → d₁ ≈z d₃ :=
   Eq.trans
 
-end LeanZX
+end LeanSpider

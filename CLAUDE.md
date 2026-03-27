@@ -1,10 +1,10 @@
-# LeanZX
+# LeanSpider
 
 Lean 4 project for ZX-calculus diagrams with interactive visualization via ProofWidgets.
 
 ## Project structure
 
-- `LeanZX/` — Lean 4 library: ZX diagram types, spider fusion, JSON serialization
+- `LeanSpider/` — Lean 4 library: ZX diagram types, spider fusion, JSON serialization
 - `zx_view_widget/` — TypeScript ProofWidgets widget (React, D3, rollup). Runs pyzx inside the InfoView via Pyodide (CPython compiled to WASM) for graph conversion/layout, renders the diagram as an interactive D3 SVG.
 - `Main.lean` — Entry point with example diagrams shown in InfoView
 

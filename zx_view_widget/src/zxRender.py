@@ -10,7 +10,7 @@ type ZXLeanGraph = BaseGraph[int, int]
 
 
 def leanzx_to_pyzx(data) -> ZXLeanGraph:
-    """Convert LeanZX JSON to a pyzx Graph."""
+    """Convert LeanSpider JSON to a pyzx Graph."""
     g: ZXLeanGraph = Graph()
     nodes = data.get("nodes", [])
     edges = data.get("edges", [])

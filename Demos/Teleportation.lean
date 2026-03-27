@@ -1,6 +1,6 @@
-import LeanZX.All
+import LeanSpider.All
 
-open LeanZX
+open LeanSpider
 
 -- Quantum teleportation demo:
 --   The proof holds for all phase values a, b ∈ {0, 1} (multiples of π)

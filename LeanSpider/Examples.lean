@@ -1,4 +1,4 @@
-import LeanZX.ZXDiagram
+import LeanSpider.ZXDiagram
 
 -- Z CNOT Z
 def zCnotZ : ZXDiagram :=

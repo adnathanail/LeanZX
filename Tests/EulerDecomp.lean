@@ -1,7 +1,7 @@
 import LSpec
-import LeanZX.All
+import LeanSpider.All
 
-open LSpec LeanZX
+open LSpec LeanSpider
 
 private def hadWire : ZXDiagram :=
   .ofList [.input 0, .hadamard, .output 0]

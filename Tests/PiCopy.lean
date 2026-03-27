@@ -1,7 +1,7 @@
 import LSpec
-import LeanZX.All
+import LeanSpider.All
 
-open LSpec LeanZX
+open LSpec LeanSpider
 
 -- Test pushing a green π spider through an adjacent red π/2 spider
 private def piCopyBasic : ZXDiagram :=

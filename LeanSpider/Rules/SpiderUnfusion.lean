@@ -1,5 +1,5 @@
-import LeanZX.Axioms
-import LeanZX.Tactics
+import LeanSpider.Axioms
+import LeanSpider.Tactics
 
 open Lean Elab Tactic Meta Term
 
@@ -28,7 +28,7 @@ def ZXDiagram.spiderUnfusion (d : ZXDiagram) (a : NodeId) (α β : Phase)
   let d := d.addEdges (rewire.map (Edge.mk b ·))
   return d.normalize
 
-namespace LeanZX
+namespace LeanSpider
 
 axiom ZXDiagram.spiderUnfusion_sound (d : ZXDiagram) (a : NodeId) (α β : Phase)
     (rewire : List NodeId) (d' : ZXDiagram) :
@@ -55,4 +55,4 @@ elab_rules : tactic
       ``ZXDiagram.spiderUnfusion ``ZXDiagram.spiderUnfusion_sound
       #[mkNatLit a.getNat, α, β, rewireList]
 
-end LeanZX
+end LeanSpider

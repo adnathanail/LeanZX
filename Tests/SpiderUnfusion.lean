@@ -1,7 +1,7 @@
 import LSpec
-import LeanZX.All
+import LeanSpider.All
 
-open LSpec LeanZX
+open LSpec LeanSpider
 
 -- Fuse two Z(π/2) and Z(π) spiders, then unfuse back with the same phase split.
 -- The round-trip changes node ordering (unfusion appends the new spider at the end),

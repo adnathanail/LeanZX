@@ -1,4 +1,4 @@
-# LeanZX
+# LeanSpider
 
 [![CI](https://github.com/adnathanail/zx-lean/actions/workflows/ci.yml/badge.svg)](https://github.com/adnathanail/zx-lean/actions/workflows/ci.yml)
 [![ty](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ty/main/assets/badge/v0.json)](https://github.com/astral-sh/ty)

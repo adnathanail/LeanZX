@@ -1,6 +1,6 @@
-import LeanZX.All
+import LeanSpider.All
 
-open LeanZX
+open LeanSpider
 
 def main : IO Unit :=
   IO.println "Open Main.lean in VS Code to see the ZX diagram in the InfoView."
