@@ -13,5 +13,6 @@ import LeanSpider.Rules.PiCopy
 import LeanSpider.Rules.SpiderUnfusion
 import LeanSpider.Rules.EulerDecomp
 import LeanSpider.Rules.StrongComp
+import LeanSpider.Rules.IdentityInsertion
 import LeanSpider.DerivedRules.PiPi
 import LeanSpider.Examples
