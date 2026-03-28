@@ -2,6 +2,9 @@ import LeanSpider.All
 
 open LeanSpider
 
+def main : IO Unit :=
+  IO.println "Open Main.lean in VS Code to see the ZX diagram in the InfoView."
+
 -- This is how we define a diagram
 def zHadX : ZXDiagram :=
   ZXDiagram.ofList
