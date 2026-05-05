@@ -18,10 +18,10 @@ The JS bundle (~16MB) is built by rollup and written to `.lake/build/js/`. It em
 
 ## Key conventions
 
-- `ZXDiagram` uses `Std.HashMap NodeId Node` with a monotonic `nextId` counter for stable node IDs. Node IDs persist across additions and removals (no reindexing).
-- Construct diagrams with `ZXDiagram.ofArrays` (array indices become IDs) or `ZXDiagram.addNode`/`ZXDiagram.addEdge`
-- Look up nodes with `d.getNode? id`, not array indexing
-- ZXDiagram nodes: `.input ioId`, `.output ioId`, `.spider color phase`, `.hadamard phase` where phase is a `Phase` (num/den)
+- `ZXDiagram` uses `List (Option Node)` for nodes (list indices are node IDs) and `List Edge` for edges.
+- Construct diagrams with `ZXDiagram.ofList` (list indices become IDs) or `ZXDiagram.addNode`/`ZXDiagram.addEdge`
+- Look up nodes with `d.getNode? id`, not direct list indexing
+- ZXDiagram nodes: `.input ioId`, `.output ioId`, `.spider color phase`, `.hadamard` where phase is a `Phase` (num/den)
 - JSON wire format from Lean to the widget: `{"nodes": [...], "edges": [{"src": id, "tgt": id}]}`
 - Python layout/conversion logic lives in `zx_view_widget/src/zxRender.py` — edit this file to change graph layout. Lake tracks `.py` files and rebuilds the widget when they change.
 - D3 rendering logic lives in `zx_view_widget/src/zxViewer.js` — vendored from pyzx's `zx_viewer.inline.js` with a fix for H-box edge redraw. Edit this file to change how the SVG is drawn.
@@ -37,5 +37,4 @@ The widget (`zx_view_widget/src/zxDiagram.tsx`) loads Pyodide as follows:
 
 ## Lean tips
 
-- `ZXDiagram` has no `Inhabited` instance — use `.getD` with a fallback (not `.get!`) when unwrapping `Option ZXDiagram`
-- `Std.HashMap` doesn't support `deriving Repr` or `deriving BEq` — `ZXDiagram` has manual instances
+- `ZXDiagram` has a manual `BEq` instance that sorts edges before comparison, so edge order doesn't affect equality
