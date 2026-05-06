@@ -12,3 +12,21 @@
 - Add normal forms
 - Replace the various individual tactics with a single tactic with args
     - Can we use the existing rw tactic? And just pass it theorems?
+
+- Remove Pyodide
+- Try to simplify to a single rewrite tactic
+- Try to prove a very simple spider fusion
+- Read the hypergraphs paper again (with the help of AI)
+
+- double push out rewriting
+
+Things to prove:
+- local complementation always terminates
+- spider fusion always terminates
+
+Things to research
+- xiaoning bian
+- minicrypt
+    - leo collison
+    - diagrams formalisation
+- chyp
