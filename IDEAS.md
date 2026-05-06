@@ -13,7 +13,6 @@
 - Replace the various individual tactics with a single tactic with args
     - Can we use the existing rw tactic? And just pass it theorems?
 
-- Remove Pyodide
 - Try to simplify to a single rewrite tactic
 - Try to prove a very simple spider fusion
 - Read the hypergraphs paper again (with the help of AI)
