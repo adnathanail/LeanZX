@@ -7,79 +7,24 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-const pyodideDir = path.join(__dirname, 'node_modules', 'pyodide')
 
-// Bundles pyodide's large binary assets as virtual modules so the widget
-// is fully self-contained with no network requests at runtime.
-const pyodideBundled = {
-  name: 'pyodide-bundled',
-  resolveId(id) {
-    if (id === 'pyodide-bundled/asm-js') return '\0pyodide-bundled/asm-js'
-    if (id === 'pyodide-bundled/wasm') return '\0pyodide-bundled/wasm'
-    if (id === 'pyodide-bundled/stdlib') return '\0pyodide-bundled/stdlib'
-    if (id === 'pyodide-bundled/lock') return '\0pyodide-bundled/lock'
-  },
-  load(id) {
-    if (id === '\0pyodide-bundled/asm-js') {
-      const b64 = readFileSync(path.join(pyodideDir, 'pyodide.asm.js')).toString('base64')
-      return `export default "data:text/javascript;base64,${b64}";`
-    }
-    if (id === '\0pyodide-bundled/wasm') {
-      const b64 = readFileSync(path.join(pyodideDir, 'pyodide.asm.wasm')).toString('base64')
-      return `export default "data:application/octet-stream;base64,${b64}";`
-    }
-    if (id === '\0pyodide-bundled/stdlib') {
-      const b64 = readFileSync(path.join(pyodideDir, 'python_stdlib.zip')).toString('base64')
-      return `export default "data:application/octet-stream;base64,${b64}";`
-    }
-    if (id === '\0pyodide-bundled/lock') {
-      const json = readFileSync(path.join(pyodideDir, 'pyodide-lock.json'), 'utf8')
-      return `export default ${json};`
-    }
-  },
-}
-
-// Imports .py and src .js files as plain string modules.
-// .py files are used with pyodide.runPythonAsync.
-// .js files from src/ (like zxViewer.js) are embedded as strings for eval().
-// Resolves paths from dist/ back to src/ since tsc compiles there but these files stay in src/.
+// Imports src .js files (like zxViewer.js) as plain string modules so they can
+// be embedded for eval(). Resolves paths from dist/ back to src/ since tsc
+// compiles there but these files stay in src/.
 const rawAssets = {
   name: 'raw-assets',
   resolveId(id, importer) {
-    if ((id.endsWith('.py') || id.endsWith('.js')) && importer) {
+    if (id.endsWith('.js') && importer) {
       const srcImporter = importer.replace(`${path.sep}dist${path.sep}`, `${path.sep}src${path.sep}`)
       const resolved = path.resolve(path.dirname(srcImporter), id)
       // Only handle .js files that live in src/ (not node_modules)
-      if (id.endsWith('.js') && !resolved.includes(path.join(__dirname, 'src'))) return null
+      if (!resolved.includes(path.join(__dirname, 'src'))) return null
       return resolved
     }
   },
   load(id) {
-    if (id.endsWith('.py') || (id.endsWith('.js') && id.includes(path.join(__dirname, 'src')))) {
+    if (id.endsWith('.js') && id.includes(path.join(__dirname, 'src'))) {
       return `export default ${JSON.stringify(readFileSync(id, 'utf8'))};`
-    }
-  },
-}
-
-// Reads [dependency-groups] from pyproject.toml and exposes them as virtual modules.
-function parseDepsGroup(toml, group) {
-  const re = new RegExp(`^${group.replace('-', '\\-')}\\s*=\\s*\\[([^\\]]*)]`, 'm')
-  const match = toml.match(re)
-  if (!match) throw new Error(`Could not find dependency group '${group}' in pyproject.toml`)
-  return [...match[1].matchAll(/"([^"]+)"/g)].map(m => m[1])
-}
-
-const pythonDeps = {
-  name: 'python-deps',
-  resolveId(id) {
-    if (id === 'python-deps/load' || id === 'python-deps/micropip') return `\0${id}`
-  },
-  load(id) {
-    if (id === '\0python-deps/load' || id === '\0python-deps/micropip') {
-      const toml = readFileSync(path.join(__dirname, 'pyproject.toml'), 'utf8')
-      const group = id === '\0python-deps/load' ? 'pyodide-load' : 'pyodide-micropip'
-      const deps = parseDepsGroup(toml, group)
-      return `export default ${JSON.stringify(deps)};`
     }
   },
 }
@@ -104,9 +49,7 @@ export default inputs.map(input => ({
     '@leanprover/infoview',
   ],
   plugins: [
-    pyodideBundled,
     rawAssets,
-    pythonDeps,
     resolve({ browser: true }),
     replace({
       preventAssignment: true,

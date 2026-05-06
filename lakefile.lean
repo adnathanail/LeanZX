@@ -53,7 +53,7 @@ input_file widgetTsconfig where
 /-- The TypeScript widget modules in `widget/src`. -/
 input_dir widgetJsSrcs where
   path := widgetDir / "src"
-  filter := .extension <| .mem #["ts", "tsx", "js", "jsx", "py"]
+  filter := .extension <| .mem #["ts", "tsx", "js", "jsx"]
   text := true
 
 /-- Target to build all widget modules from `widgetJsSrcs`. -/
