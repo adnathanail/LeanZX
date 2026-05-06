@@ -22,8 +22,6 @@ def zCnotZ : ZXDiagram :=
 #html zCnotZ.toHtml
 ```
 
-On first use, the widget downloads pyzx and its dependencies (numpy, networkx, matplotlib) from the internet and caches them. Subsequent renders are fully offline.
-
 ## Development
 
 ### Prek
@@ -37,9 +35,7 @@ prek --install
 
 The InfoView widget lives in `zx_view_widget/src/`.
 
-It is a React component written in TypeScript, bundled with rollup. It runs pyzx directly inside the InfoView using Pyodide (CPython compiled to WebAssembly) — no external processes or servers are required.
-
-The pyodide runtime (~16MB) is bundled into the widget JS at build time so it works without any network access. Python packages (pyzx, numpy, etc.) are fetched from the internet on first use and cached by the browser.
+It is a React component written in TypeScript, bundled with rollup. Layout and graph-JSON conversion are implemented in `zxRender.ts`, and rendering uses a vendored copy of pyzx's D3 viewer.
 
 `lake` handles `npm install` and the JS bundle automatically:
 
