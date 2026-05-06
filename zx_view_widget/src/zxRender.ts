@@ -84,7 +84,10 @@ function gcd(a: number, b: number): number {
   return x || 1
 }
 
-interface Phase { num: number; den: number }
+interface Phase {
+  num: number
+  den: number
+}
 
 function parsePhase(s: string | undefined): Phase {
   const str = (s ?? '0').trim()
@@ -98,7 +101,10 @@ function parsePhase(s: string | undefined): Phase {
     num = Number.parseInt(str, 10)
     den = 1
   }
-  if (den < 0) { num = -num; den = -den }
+  if (den < 0) {
+    num = -num
+    den = -den
+  }
   const g = gcd(num, den)
   return { num: num / g, den: den / g }
 }
@@ -263,7 +269,10 @@ export function render(diagram: DiagramData): RenderData {
     if (n.qubit > maxqub) maxqub = n.qubit
   }
   if (!Number.isFinite(minrow)) {
-    minrow = 0; maxrow = 0; minqub = 0; maxqub = 0
+    minrow = 0
+    maxrow = 0
+    minqub = 0
+    maxqub = 0
   }
 
   let scale = 800 / (maxrow - minrow + 2)
