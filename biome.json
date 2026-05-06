@@ -1,0 +1,51 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.14/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "includes": [
+      "zx_view_widget/src/**/*.ts",
+      "zx_view_widget/src/**/*.tsx",
+      "zx_view_widget/rollup.config.js",
+      "zx_view_widget/vitest.config.ts",
+      "zx_view_widget/package.json",
+      "zx_view_widget/tsconfig.json",
+      "biome.json",
+      "!zx_view_widget/src/zxViewer.js",
+      "!zx_view_widget/dist/**",
+      "!zx_view_widget/build/**",
+      "!zx_view_widget/node_modules/**"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all",
+      "arrowParentheses": "asNeeded"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  }
+}

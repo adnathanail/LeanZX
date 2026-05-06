@@ -1,6 +1,5 @@
-import React from 'react'
 import { render as rtlRender, screen, waitFor } from '@testing-library/react'
-import { vi, beforeEach, test, expect } from 'vitest'
+import { beforeEach, expect, test, vi } from 'vitest'
 
 const diagram = {
   nodes: [
@@ -36,7 +35,9 @@ test('renders D3 container after a successful render', async () => {
 
 test('shows an error message when the render call throws', async () => {
   vi.doMock('../zxRender', () => ({
-    render: () => { throw new Error('TS render error') },
+    render: () => {
+      throw new Error('TS render error')
+    },
   }))
   const ZXDiagram = await setup()
   rtlRender(<ZXDiagram diagram={diagram} />)
