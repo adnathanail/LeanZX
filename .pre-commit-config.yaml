@@ -1,9 +1,0 @@
-repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.4
-    hooks:
-      - id: ruff
-        args: [--fix]
-        files: ^zx_view_widget/src
-      - id: ruff-format
-        files: ^zx_view_widget/src
